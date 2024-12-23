@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ResultsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnCreateContextMenuListener{
+public class ResultsActivity extends AppCompatActivity implements View.OnCreateContextMenuListener, AdapterView.OnItemLongClickListener {
 
     Intent gi;
     ListView firstTwentyLv;
@@ -42,12 +42,12 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
 
         calcArrValues();
 
-        firstTwentyLv.setOnItemClickListener(this);
         firstTwentyLv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         ArrayAdapter<String> adp = new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, seqArr);
         firstTwentyLv.setAdapter(adp);
         firstTwentyLv.setOnCreateContextMenuListener(this);
+        firstTwentyLv.setOnItemLongClickListener(this);
     }
 
     public String bigNumSimplifier(double value){
@@ -83,8 +83,9 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+    public boolean onItemLongClick(AdapterView<?> adapterview, View view, int pos, long id) { //for long click
         posN = pos;
+        return false;
     }
 
     @Override
@@ -106,7 +107,7 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
                 ansTv.setText("Sn: " + bigNumSimplifier(sumValuesArr[posN]));
                 return true;
             } else if(sumValuesArr[posN] > -1 && sumValuesArr[posN] < 1) {
-                ansTv.setText("Sn: " + sumValuesArr[posN] + "");
+                ansTv.setText("Sn: " + sumValuesArr[posN]);
                 return true;
             } else{
                 ansTv.setText("Sn: " + String.format("%.2f", sumValuesArr[posN]));
